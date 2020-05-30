@@ -12,9 +12,7 @@ namespace airmonitor
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("Co to jest CAQI?",
-                "Przy pomocy skali CAQI określa się poziom zanieczyszczenia powietrza w odniesieniu do maksymalnego poziomu zanieczyszczenia. Im mniejsza wartość wskaźnika tym czystsze powietrze.",
-                "Zamknij");
+            DisplayAlert("Co to jest CAQI?", "Przy pomocy skali CAQI określa się poziom zanieczyszczenia powietrza w odniesieniu do maksymalnego poziomu zanieczyszczenia. Im mniejsza wartość wskaźnika tym czystsze powietrze.", "Zamknij");
         }
     }
 }

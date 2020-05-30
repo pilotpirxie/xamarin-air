@@ -6,80 +6,72 @@ namespace airmonitor.ViewModels
 {
     public class DetailsViewModel : INotifyPropertyChanged
     {
-        private string _caqiDescription =
-            "Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie.";
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _caqiTitle = "Świetna jakość!";
+        public DetailsViewModel() { }
 
         private int _caqiValue = 100;
-
-        private double _humidityValue = 0.95;
-
-        private int _pm10Percent = 135;
-
-        private int _pm10Value = 67;
-
-        private int _pm25Percent = 137;
-
-        private int _pm25Value = 34;
-
-        private int _pressureValue = 1000;
-
         public int CaqiValue
         {
             get => _caqiValue;
             set => SetProperty(ref _caqiValue, value);
         }
 
+        private string _caqiTitle = "Świetna jakość!";
         public string CaqiTitle
         {
             get => _caqiTitle;
             set => SetProperty(ref _caqiTitle, value);
         }
 
+        private string _caqiDescription = "Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie.";
         public string CaqiDescription
         {
             get => _caqiDescription;
             set => SetProperty(ref _caqiDescription, value);
         }
 
+        private int _pm25Value = 34;
         public int Pm25Value
         {
             get => _pm25Value;
             set => SetProperty(ref _pm25Value, value);
         }
 
+        private int _pm25Percent = 137;
         public int Pm25Percent
         {
             get => _pm25Percent;
             set => SetProperty(ref _pm25Percent, value);
         }
 
+        private int _pm10Value = 67;
         public int Pm10Value
         {
             get => _pm10Value;
             set => SetProperty(ref _pm10Value, value);
         }
 
+        private int _pm10Percent = 135;
         public int Pm10Percent
         {
             get => _pm10Percent;
             set => SetProperty(ref _pm10Percent, value);
         }
 
+        private double _humidityValue = 0.95;
         public double HumidityValue
         {
             get => _humidityValue;
             set => SetProperty(ref _humidityValue, value);
         }
 
+        private int _pressureValue = 1000;
         public int PressureValue
         {
             get => _pressureValue;
             set => SetProperty(ref _pressureValue, value);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
