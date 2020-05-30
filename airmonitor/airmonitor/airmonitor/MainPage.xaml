@@ -2,13 +2,54 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:airmonitor"
+             BackgroundColor="White"
              x:Class="airmonitor.MainPage">
-
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Air Monitor" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+    <ScrollView>
+        <Grid>
+            <StackLayout
+                Padding="30">
+                <Frame
+                    CornerRadius="25"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    HeightRequest="100"
+                    WidthRequest="100"
+                    HasShadow="True"
+                    BackgroundColor="LightGreen"
+                    BorderColor="Transparent">
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    Text="56"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    FontSize="32"/>
+                                <Span 
+                                    Text="{x:Static x:Environment.NewLine}"/>
+                                <Span
+                                    TextColor="DarkGreen"
+                                    Text="CAQI"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Frame>
+                <Label
+                    Text="Świetna jakość!"
+                    FontSize="24"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"/>
+                <Label
+                    Text="Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie."
+                    FontSize="16"
+                    TextColor="Black" 
+                    HorizontalTextAlignment="Center"
+                    />
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 
 </ContentPage>
