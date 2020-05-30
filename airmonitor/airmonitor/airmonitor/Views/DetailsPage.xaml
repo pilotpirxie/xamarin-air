@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              BackgroundColor="White"
              xmlns:controls="clr-namespace:airmonitor.Controls"
-            xmlns:viewModels="clr-namespace:airmonitor.ViewModels"
-            xmlns:converters="clr-namespace:airmonitor.Converters"
+             xmlns:viewModels="clr-namespace:airmonitor.ViewModels"
+             xmlns:converters="clr-namespace:airmonitor.Converters"
              x:Class="airmonitor.DetailsPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
@@ -36,10 +36,10 @@
                     </Label>
                 </Frame>
                 <Label
-                    Text="Świetna jakość!"
+                    Text="{Binding CaqiTitle}"
                     Style="{StaticResource CaqiTitleStyle}"/>
                 <Label
-                    Text="Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie."
+                    Text="{Binding CaqiDescription}"
                     Style="{StaticResource CaqiDescriptionStyle}" />
                 <BoxView
                     Style="{StaticResource HorizontalSeparatorStyle}"/>
@@ -128,7 +128,7 @@
                                 Style="{StaticResource NormalTextSpanStyle}"/>
                             <Slider
                                 IsEnabled="False"
-                                Value="1000"
+                                Value="{Binding PressureValue}"
                                 Maximum="1100"
                                 Minimum="900"
                                 Style="{StaticResource SliderStyle}"/>

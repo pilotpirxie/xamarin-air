@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace airmonitor.ViewModels
 {
-    class HomeViewModel
+    public class HomeViewModel
     {
         INavigation navigation;
 
@@ -12,8 +12,21 @@ namespace airmonitor.ViewModels
             this.navigation = navigation;
         }
 
-        private ICommand _goToDetailsCommand;
-        public ICommand GoToDetailsCommand => _goToDetailsCommand ?? (_goToDetailsCommand = new Command(OnGoToDetails));
+        ICommand _cmnd;
+
+        public ICommand GoToDetailsCommand()
+        {
+            if (_cmnd != null)
+            {
+                return _cmnd;
+                  
+            }
+            else
+            {
+                this._cmnd = new Command(OnGoToDetails);
+                return _cmnd;
+            }
+        }
 
         private void OnGoToDetails()
         {

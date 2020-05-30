@@ -12,6 +12,5 @@ namespace airmonitor.Views
 			InitializeComponent ();
             BindingContext = new HomeViewModel(Navigation);
         }
-        
     }
 }

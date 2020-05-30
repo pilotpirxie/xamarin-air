@@ -8,24 +8,13 @@ namespace airmonitor.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DetailsViewModel()
-        {
-        }
+        public DetailsViewModel() { }
 
-        private int _caqiValue = 57;
+        private int _caqiValue = 100;
         public int CaqiValue
         {
             get => _caqiValue;
             set => SetProperty(ref _caqiValue, value);
-            /* SetProperty is a helper function to shorten our code. This is equivalent of:
-             * set
-             * {
-             *  if (_caqiValue == value) return; // Don't reassign value and notify view if value didn't change
-             *
-             *  _caqiValue = value;
-             *  RaisePropertyChanged();
-             * }
-             */
         }
 
         private string _caqiTitle = "Świetna jakość!";
@@ -77,7 +66,7 @@ namespace airmonitor.ViewModels
             set => SetProperty(ref _humidityValue, value);
         }
 
-        private int _pressureValue = 1027;
+        private int _pressureValue = 1000;
         public int PressureValue
         {
             get => _pressureValue;

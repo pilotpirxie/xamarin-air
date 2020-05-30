@@ -6,14 +6,14 @@
             x:Class="airmonitor.Views.RootTabbedPage"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom">
-    <NavigationPage Title="Powietrze" NavigationPage.HasNavigationBar="False">
+    <NavigationPage Title="Powietrze" NavigationPage.HasNavigationBar="False" Icon="baseline_home_black_24">
         <x:Arguments>
             <views1:DetailsPage/>
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Przycisk" NavigationPage.HasNavigationBar="False">
+    <NavigationPage Title="Przycisk" NavigationPage.HasNavigationBar="False" Icon="baseline_settings_black_24">
         <x:Arguments>
-            <views:HomePage/>
+            <views:SettingsPage />
         </x:Arguments>
     </NavigationPage>
 </TabbedPage>
