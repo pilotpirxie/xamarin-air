@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:airmonitor"
              BackgroundColor="White"
+             xmlns:controls="clr-namespace:airmonitor.Controls"
              x:Class="airmonitor.MainPage">
     <ScrollView>
         <Grid>
             <StackLayout
-                Padding="30">
+                Padding="5">
                 <Frame
                     CornerRadius="25"
                     HorizontalOptions="Center"
@@ -58,31 +58,117 @@
                         <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    
+                    <controls:ContentWithHeader 
+                        Title="PM 2,5"
+                        Grid.Column="0">
+                        <controls:ContentWithHeader.ControlContent>
+                            <Label 
+                                HorizontalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            Text="34mg/m3"
+                                            TextColor="Black"
+                                            FontSize="12"/>
+                                        <Span 
+                                            Text="{x:Static x:Environment.NewLine}"/>
+                                        <Span
+                                            Text="(100%)"
+                                            TextColor="Gray"
+                                            FontSize="10"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </controls:ContentWithHeader.ControlContent>
+                    </controls:ContentWithHeader>
+                    
                     <BoxView
                         Grid.Column="1"
                         VerticalOptions="Fill"
                         HorizontalOptions="Center"
                         WidthRequest="1"
                         BackgroundColor="LightGray" />
+                    
+                    <controls:ContentWithHeader 
+                        Title="PM 10"
+                        Grid.Column="2">
+                        <controls:ContentWithHeader.ControlContent>
+                            <Label
+                                HorizontalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            Text="34mg/m3"
+                                            TextColor="Black"
+                                            FontSize="12"/>
+                                        <Span 
+                                            Text="{x:Static x:Environment.NewLine}"/>
+                                        <Span
+                                            Text="(100%)"
+                                            TextColor="Gray"
+                                            FontSize="10"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </controls:ContentWithHeader.ControlContent>
+                    </controls:ContentWithHeader>
                 </Grid>
+                
                 <BoxView
                     HeightRequest="1"
                     HorizontalOptions="Fill"
                     BackgroundColor="LightGray"/>
+
+                <controls:ContentWithHeader 
+                    Title="Wilgotność">
+                    <controls:ContentWithHeader.ControlContent>
+                        <StackLayout>
+                            <Label
+                                Text="95%"
+                                FontSize="12"
+                                TextColor="Black" />
+                            <Slider
+                                IsEnabled="False"
+                                Value="0.95"
+                                MaximumTrackColor="LightGray"
+                                MinimumTrackColor="LightGray"
+                                ThumbColor="Black"/>
+                        </StackLayout>
+                    </controls:ContentWithHeader.ControlContent>
+                </controls:ContentWithHeader>
+
                 <BoxView
                     HeightRequest="1"
                     HorizontalOptions="Fill"
                     BackgroundColor="LightGray"/>
+
+                <controls:ContentWithHeader Title="Ciśnienie">
+                    <controls:ContentWithHeader.ControlContent>
+                        <StackLayout>
+                            <Label
+                                Text="95%"
+                                FontSize="12"
+                                TextColor="Black" />
+                            <Slider
+                                IsEnabled="False"
+                                Value="0.95"
+                                MaximumTrackColor="LightGray"
+                                MinimumTrackColor="LightGray"
+                                ThumbColor="Black"/>
+                        </StackLayout>
+                    </controls:ContentWithHeader.ControlContent>
+                </controls:ContentWithHeader>
             </StackLayout>
 
             <ImageButton
-                Padding="12,24"
-                HorizontalOptions="End"
+                Padding="10,10"
+                Source="baseline_help_outline_black_24.png"
                 VerticalOptions="Start"
+                HorizontalOptions="End"
                 WidthRequest="48"
-                HeightRequest="72"
-                BackgroundColor="Transparent"
-                Source="baseline_help_outline_black_24.png"/>
+                HeightRequest="48"
+                BackgroundColor="Transparent"/>
         </Grid>
     </ScrollView>
 
