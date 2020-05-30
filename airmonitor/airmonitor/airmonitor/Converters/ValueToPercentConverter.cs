@@ -1,15 +1,15 @@
 ﻿using System;
-using Xamarin.Forms;
 using System.Globalization;
+using Xamarin.Forms;
 
 namespace airmonitor.Converters
 {
-    class ValueToPercentConverter : IValueConverter
+    internal class ValueToPercentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!double.TryParse(value?.ToString(), out var result)) return value;
-
+            if (!double.TryParse(value?.ToString(), out var result))
+                return value;
             return result * 100;
         }
 

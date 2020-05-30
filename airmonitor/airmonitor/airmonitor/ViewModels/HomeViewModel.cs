@@ -5,27 +5,23 @@ namespace airmonitor.ViewModels
 {
     public class HomeViewModel
     {
-        INavigation navigation;
+        private ICommand _cmnd;
+        private readonly INavigation navigation;
 
         public HomeViewModel(INavigation navigation)
         {
             this.navigation = navigation;
         }
 
-        ICommand _cmnd;
-
         public ICommand GoToDetailsCommand()
         {
             if (_cmnd != null)
             {
                 return _cmnd;
-                  
             }
-            else
-            {
-                this._cmnd = new Command(OnGoToDetails);
-                return _cmnd;
-            }
+
+            _cmnd = new Command(OnGoToDetails);
+            return _cmnd;
         }
 
         private void OnGoToDetails()
