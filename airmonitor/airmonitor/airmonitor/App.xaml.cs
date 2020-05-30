@@ -12,7 +12,7 @@ namespace airmonitor
         {
             InitializeComponent();
 
-            MainPage = new DetailsPage();
+            MainPage = new RootTabbedPage();
         }
 
         protected override void OnStart()

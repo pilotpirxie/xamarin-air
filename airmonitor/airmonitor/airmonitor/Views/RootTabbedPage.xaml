@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:airmonitor.Views"
+            xmlns:views1="clr-namespace:airmonitor"
+            x:Class="airmonitor.Views.RootTabbedPage"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom">
+    <NavigationPage Title="Powietrze" NavigationPage.HasNavigationBar="False">
+        <x:Arguments>
+            <views1:DetailsPage/>
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Przycisk" NavigationPage.HasNavigationBar="False">
+        <x:Arguments>
+            <views:HomePage/>
+        </x:Arguments>
+    </NavigationPage>
+</TabbedPage>
