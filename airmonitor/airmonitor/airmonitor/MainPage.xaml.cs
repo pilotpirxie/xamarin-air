@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace airmonitor
@@ -12,6 +8,11 @@ namespace airmonitor
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            DisplayAlert("Co to jest CAQI?", "Przy pomocy skali CAQI określa się poziom zanieczyszczenia powietrza w odniesieniu do maksymalnego poziomu zanieczyszczenia. Im mniejsza wartość wskaźnika tym czystsze powietrze.", "Zamknij");
         }
     }
 }

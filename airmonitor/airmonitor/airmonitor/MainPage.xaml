@@ -147,12 +147,14 @@
                     <controls:ContentWithHeader.ControlContent>
                         <StackLayout>
                             <Label
-                                Text="95%"
+                                Text="1000 hPa"
                                 FontSize="12"
                                 TextColor="Black" />
                             <Slider
                                 IsEnabled="False"
-                                Value="0.95"
+                                Value="1000"
+                                Maximum="1100"
+                                Minimum="900"
                                 MaximumTrackColor="LightGray"
                                 MinimumTrackColor="LightGray"
                                 ThumbColor="Black"/>
@@ -168,7 +170,8 @@
                 HorizontalOptions="End"
                 WidthRequest="48"
                 HeightRequest="48"
-                BackgroundColor="Transparent"/>
+                BackgroundColor="Transparent"
+                Clicked="ImageButton_Clicked"/>
         </Grid>
     </ScrollView>
 
