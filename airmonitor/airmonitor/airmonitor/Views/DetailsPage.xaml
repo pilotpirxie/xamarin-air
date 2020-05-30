@@ -3,34 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              BackgroundColor="White"
              xmlns:controls="clr-namespace:airmonitor.Controls"
-             x:Class="airmonitor.MainPage">
+            xmlns:viewModels="clr-namespace:airmonitor.ViewModels"
+            xmlns:converters="clr-namespace:airmonitor.Converters"
+             x:Class="airmonitor.DetailsPage">
+    <ContentPage.BindingContext>
+        <viewModels:DetailsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ValueToPercentConverter x:Key="ValueToPercent"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ScrollView>
         <Grid>
-            <StackLayout
-                Padding="5">
-                <Frame
-                    CornerRadius="25"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    HeightRequest="100"
-                    WidthRequest="100"
-                    HasShadow="True"
-                    BackgroundColor="LightGreen"
-                    BorderColor="Transparent">
-                    <Label
-                        HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center">
+            <StackLayout Style="{StaticResource DetailsLayoutStyle}">
+                <Frame Style="{StaticResource CaqiFrameStyle}">
+                    <Label Style="{StaticResource CenteredTextStyle}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span
                                     Text="56"
-                                    FontAttributes="Bold"
-                                    TextColor="Black"
-                                    FontSize="32"/>
+                                    Style="{StaticResource CaqiValueSpanStyle}"/>
                                 <Span 
                                     Text="{x:Static x:Environment.NewLine}"/>
                                 <Span
-                                    TextColor="DarkGreen"
+                                    Style="{StaticResource CaqiUnitSpanStyle}"
                                     Text="CAQI"/>
                             </FormattedString>
                         </Label.FormattedText>
@@ -38,20 +36,12 @@
                 </Frame>
                 <Label
                     Text="Świetna jakość!"
-                    FontSize="24"
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    HorizontalTextAlignment="Center"/>
+                    Style="{StaticResource CaqiTitleStyle}"/>
                 <Label
                     Text="Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie."
-                    FontSize="16"
-                    TextColor="Black" 
-                    HorizontalTextAlignment="Center"
-                    />
+                    Style="{StaticResource CaqiDescriptionStyle}" />
                 <BoxView
-                    HeightRequest="1"
-                    HorizontalOptions="Fill"
-                    BackgroundColor="LightGray"/>
+                    Style="{StaticResource HorizontalSeparatorStyle}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -116,9 +106,7 @@
                 </Grid>
                 
                 <BoxView
-                    HeightRequest="1"
-                    HorizontalOptions="Fill"
-                    BackgroundColor="LightGray"/>
+                    Style="{StaticResource HorizontalSeparatorStyle}"/>
 
                 <controls:ContentWithHeader 
                     Title="Wilgotność">
@@ -126,38 +114,30 @@
                         <StackLayout>
                             <Label
                                 Text="95%"
-                                FontSize="12"
-                                TextColor="Black" />
+                                Style="{StaticResource NormalTextSpanStyle}"/>
                             <Slider
                                 IsEnabled="False"
                                 Value="0.95"
-                                MaximumTrackColor="LightGray"
-                                MinimumTrackColor="LightGray"
-                                ThumbColor="Black"/>
+                                Style="{StaticResource SliderStyle}"/>
                         </StackLayout>
                     </controls:ContentWithHeader.ControlContent>
                 </controls:ContentWithHeader>
 
                 <BoxView
-                    HeightRequest="1"
-                    HorizontalOptions="Fill"
-                    BackgroundColor="LightGray"/>
+                    Style="{StaticResource HorizontalSeparatorStyle}"/>
 
                 <controls:ContentWithHeader Title="Ciśnienie">
                     <controls:ContentWithHeader.ControlContent>
                         <StackLayout>
                             <Label
                                 Text="1000 hPa"
-                                FontSize="12"
-                                TextColor="Black" />
+                                Style="{StaticResource NormalTextSpanStyle}"/>
                             <Slider
                                 IsEnabled="False"
                                 Value="1000"
                                 Maximum="1100"
                                 Minimum="900"
-                                MaximumTrackColor="LightGray"
-                                MinimumTrackColor="LightGray"
-                                ThumbColor="Black"/>
+                                Style="{StaticResource SliderStyle}"/>
                         </StackLayout>
                     </controls:ContentWithHeader.ControlContent>
                 </controls:ContentWithHeader>

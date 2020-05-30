@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace airmonitor
 {
-    public partial class MainPage : ContentPage
+    public partial class DetailsPage : ContentPage
     {
-        public MainPage()
+        public DetailsPage()
         {
             InitializeComponent();
         }
