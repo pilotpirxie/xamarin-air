@@ -4,17 +4,11 @@
              BackgroundColor="White"
              xmlns:controls="clr-namespace:airmonitor.Controls"
              xmlns:viewModels="clr-namespace:airmonitor.ViewModels"
-             xmlns:converters="clr-namespace:airmonitor.Converters"
              x:Class="airmonitor.Views.DetailsPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
         <viewModels:DetailsViewModel/>
     </ContentPage.BindingContext>
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:ValueToPercentConverter x:Key="ValueToPercent"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     
     <ScrollView>
         <Grid>
@@ -107,11 +101,13 @@
                     <controls:ContentWithHeader.ControlContent>
                         <StackLayout>
                             <Label
-                                Text="{Binding HumidityValue, Converter={StaticResource ValueToPercent}, StringFormat='{0}%'}"   
+                                Text="{Binding HumidityPercent, StringFormat='{0}%'}"
                                 Style="{StaticResource NormalTextSpanStyle}"/>
                             <Slider
                                 IsEnabled="False"
-                                Value="{Binding HumidityValue}"
+                                Value="{Binding HumidityPercent}"
+                                Maximum="100"
+                                Minimum="0"
                                 Style="{StaticResource SliderStyle}"/>
                         </StackLayout>
                     </controls:ContentWithHeader.ControlContent>
