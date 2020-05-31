@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:airmonitor.Controls"
              xmlns:viewModels="clr-namespace:airmonitor.ViewModels"
              xmlns:converters="clr-namespace:airmonitor.Converters"
-             x:Class="airmonitor.DetailsPage"
+             x:Class="airmonitor.Views.DetailsPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
         <viewModels:DetailsViewModel/>

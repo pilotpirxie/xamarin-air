@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace airmonitor.Converters
 {
-    class ValueToPercentConverter : IValueConverter
+    internal class ValueToPercentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -1,92 +1,114 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Linq;
+using airmonitor.Models;
 
 namespace airmonitor.ViewModels
 {
-    public class DetailsViewModel : INotifyPropertyChanged
+    public class DetailsViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private string _caqiDescription =
+            "Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie.";
 
-        public DetailsViewModel() { }
+        private string _caqiTitle = "Świetna jakość!";
 
-        private int _caqiValue = 100;
+        private int _caqiValue = 57;
+
+        private int _humidityPercent = 29;
+
+        private Measurement _item;
+
+        private int _pm10Percent = 135;
+
+        private int _pm10Value = 67;
+
+        private int _pm25Percent = 137;
+
+        private int _pm25Value = 34;
+
+        private int _pressureValue = 1027;
+
+        public Measurement Item
+        {
+            get => _item;
+            set
+            {
+                SetProperty(ref _item, value);
+
+                UpdateProperties();
+            }
+        }
+
         public int CaqiValue
         {
             get => _caqiValue;
             set => SetProperty(ref _caqiValue, value);
         }
 
-        private string _caqiTitle = "Świetna jakość!";
         public string CaqiTitle
         {
             get => _caqiTitle;
             set => SetProperty(ref _caqiTitle, value);
         }
 
-        private string _caqiDescription = "Możesz bezpiecznie wyjść z domu bez swojej maski anty-smogowej i nie bać się o swoje zdrowie.";
         public string CaqiDescription
         {
             get => _caqiDescription;
             set => SetProperty(ref _caqiDescription, value);
         }
 
-        private int _pm25Value = 34;
         public int Pm25Value
         {
             get => _pm25Value;
             set => SetProperty(ref _pm25Value, value);
         }
 
-        private int _pm25Percent = 137;
         public int Pm25Percent
         {
             get => _pm25Percent;
             set => SetProperty(ref _pm25Percent, value);
         }
 
-        private int _pm10Value = 67;
         public int Pm10Value
         {
             get => _pm10Value;
             set => SetProperty(ref _pm10Value, value);
         }
 
-        private int _pm10Percent = 135;
         public int Pm10Percent
         {
             get => _pm10Percent;
             set => SetProperty(ref _pm10Percent, value);
         }
 
-        private double _humidityValue = 0.95;
-        public double HumidityValue
+        public int HumidityPercent
         {
-            get => _humidityValue;
-            set => SetProperty(ref _humidityValue, value);
+            get => _humidityPercent;
+            set => SetProperty(ref _humidityPercent, value);
         }
 
-        private int _pressureValue = 1000;
         public int PressureValue
         {
             get => _pressureValue;
             set => SetProperty(ref _pressureValue, value);
         }
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        private void UpdateProperties()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            if (Item?.Current == null) return;
+            var current = Item?.Current;
+            var index = current.Indexes?.FirstOrDefault(c => c.Name == "AIRLY_CAQI");
+            var values = current.Values;
+            var standards = current.Standards;
 
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-
-            field = value;
-
-            RaisePropertyChanged(propertyName);
-
-            return true;
+            CaqiValue = (int) Math.Round(index?.Value ?? 0);
+            CaqiTitle = index.Description;
+            CaqiDescription = index.Advice;
+            Pm25Value = (int) Math.Round(values?.FirstOrDefault(s => s.Name == "PM25")?.Value ?? 0);
+            Pm10Value = (int) Math.Round(values?.FirstOrDefault(s => s.Name == "PM10")?.Value ?? 0);
+            HumidityPercent = (int) Math.Round(values?.FirstOrDefault(s => s.Name == "HUMIDITY")?.Value ?? 0);
+            PressureValue = (int) Math.Round(values?.FirstOrDefault(s => s.Name == "PRESSURE")?.Value ?? 0);
+            Pm25Percent = (int) Math.Round(standards?.FirstOrDefault(s => s.Pollutant == "PM25")?.Percent ?? 0);
+            Pm10Percent = (int) Math.Round(standards?.FirstOrDefault(s => s.Pollutant == "PM10")?.Percent ?? 0);
         }
     }
 }

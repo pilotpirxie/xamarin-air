@@ -1,28 +1,28 @@
-﻿using airmonitor.Views;
-using Newtonsoft.Json.Linq;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using airmonitor.Views;
+using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+
 namespace airmonitor
 {
     public partial class App : Application
     {
-        public static string AirlyApiKey { get; private set; }
-        public static string AirlyApiUrl { get; private set; }
-        public static string AirlyApiMeasurementUrl { get; private set; }
-        public static string AirlyApiInstallationUrl { get; private set; }
-
         public App()
         {
             InitializeComponent();
 
             InitializeApp();
         }
+
+        public static string AirlyApiKey { get; private set; }
+        public static string AirlyApiUrl { get; private set; }
+        public static string AirlyApiMeasurementUrl { get; private set; }
+        public static string AirlyApiInstallationUrl { get; private set; }
 
         private void InitializeApp()
         {
@@ -42,29 +42,14 @@ namespace airmonitor
                 using (var reader = new StreamReader(stream))
                 {
                     var json = reader.ReadToEnd();
-                    var dynamicJson = JObject.Parse(json);
+                    var data = JObject.Parse(json);
 
-                    AirlyApiKey = dynamicJson["AirlyApiKey"].Value<string>();
-                    AirlyApiUrl = dynamicJson["AirlyApiUrl"].Value<string>();
-                    AirlyApiMeasurementUrl = dynamicJson["AirlyApiMeasurementUrl"].Value<string>();
-                    AirlyApiInstallationUrl = dynamicJson["AirlyApiInstallationUrl"].Value<string>();
+                    AirlyApiKey = data["AirlyApiKey"].Value<string>();
+                    AirlyApiUrl = data["AirlyApiUrl"].Value<string>();
+                    AirlyApiMeasurementUrl = data["AirlyApiMeasurementUrl"].Value<string>();
+                    AirlyApiInstallationUrl = data["AirlyApiInstallationUrl"].Value<string>();
                 }
             }
-        }
-
-        protected override void OnStart()
-        {
-            // Handle when your app starts
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
         }
     }
 }
