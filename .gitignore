@@ -369,3 +369,4 @@ config.json
 .idea/
 */config.json
 */.idea/*
+airmonitor/airmonitor/airmonitor.Android/Properties/AndroidManifest.xml
