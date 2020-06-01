@@ -10,7 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<EmbeddedResource Include="Resources\config.json" />
+    <None Remove="Resources\config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\config.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +41,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Styles\Colors.xaml">

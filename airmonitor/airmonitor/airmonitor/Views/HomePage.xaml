@@ -4,7 +4,7 @@
              x:Class="airmonitor.Views.HomePage"
              xmlns:models="clr-namespace:airmonitor.Models"
              xmlns:viewModels="clr-namespace:airmonitor.ViewModels"
-             Title="Ekran startowy">
+             Title="Wybierz lokalizacje">
     <!-- <ContentPage.BindingContext>
         <viewModels:HomeViewModel/>
     </ContentPage.BindingContext> -->

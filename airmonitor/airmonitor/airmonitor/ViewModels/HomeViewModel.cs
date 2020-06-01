@@ -12,6 +12,7 @@ using airmonitor.Views;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace airmonitor.ViewModels
 {
@@ -33,7 +34,6 @@ namespace airmonitor.ViewModels
         {
             _navigation = navigation;
             _databaseHelper = new DatabaseHelper();
-            MeasurementEntity me = _databaseHelper.Select();
             Initialize();
         }
 

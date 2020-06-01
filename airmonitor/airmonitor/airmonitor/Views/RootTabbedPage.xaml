@@ -10,7 +10,7 @@
             <views:HomePage/>
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Przycisk" NavigationPage.HasNavigationBar="False" IconImageSource="baseline_settings_black_24">
+    <NavigationPage Title="Ustawienia" NavigationPage.HasNavigationBar="False" IconImageSource="baseline_settings_black_24">
         <x:Arguments>
             <views:SettingsPage />
         </x:Arguments>

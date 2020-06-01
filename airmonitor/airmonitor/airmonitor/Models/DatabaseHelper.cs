@@ -28,18 +28,22 @@ namespace airmonitor.Models
 
         public void Insert(List<Measurement> data)
         {
-            if (_connection != null)
+            if (data == null)
             {
-                MeasurementEntity me = new MeasurementEntity();
-                me.Measurement = JsonConvert.SerializeObject(data);
-                me.DateTime = DateTime.Now;
-
-                _connection.Insert(me);
+                return;
             }
-            else
+
+            if (_connection == null)
             {
                 throw new Exception("Connection closed");
             }
+
+            MeasurementEntity me = new MeasurementEntity();
+            me.Measurement = JsonConvert.SerializeObject(data);
+            me.DateTime = DateTime.Now;
+
+            _connection.Insert(me);
+            
         }
 
         public MeasurementEntity Select()
