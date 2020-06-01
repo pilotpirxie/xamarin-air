@@ -9,7 +9,13 @@
         <viewModels:HomeViewModel/>
     </ContentPage.BindingContext> -->
     <Grid>
-        <ListView ItemsSource="{Binding Items}" ItemTapped="ListView_ItemTapped" SelectionMode="None">
+        <ListView 
+            ItemsSource="{Binding Items}" 
+            ItemTapped="ListView_ItemTapped" 
+            SelectionMode="None"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            RefreshCommand="{Binding RefreshList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Installation.Address.Description}"

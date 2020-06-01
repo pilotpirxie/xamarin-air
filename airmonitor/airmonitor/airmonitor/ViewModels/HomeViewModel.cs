@@ -21,17 +21,26 @@ namespace airmonitor.ViewModels
 
         private ICommand _goToDetailsCommand;
 
+        private ICommand _refreshListCommand;
+
         private bool _isBusy;
 
         private List<Measurement> _items;
 
+        private readonly DatabaseHelper _databaseHelper;
+
         public HomeViewModel(INavigation navigation)
         {
             _navigation = navigation;
+            _databaseHelper = new DatabaseHelper();
+            MeasurementEntity me = _databaseHelper.Select();
             Initialize();
         }
 
         public ICommand GoToDetailsCommand => _goToDetailsCommand ?? (_goToDetailsCommand = new Command<Measurement>(OnGoToDetails));
+        
+        public ICommand RefreshList => _refreshListCommand ?? (_refreshListCommand = new Command(OnRefresh));
+
 
         public List<Measurement> Items
         {
@@ -48,42 +57,54 @@ namespace airmonitor.ViewModels
         private async Task Initialize()
         {
             IsBusy = true;
-            Console.Write("Starting...");
-            Location location = await GetLocation();
-            // DatabaseHelper helper = new DatabaseHelper();
-            // MeasurementEntity me = helper.Select();
-
-            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 2);
-            IEnumerable<Measurement> data = await GetMeasurementsForInstallations(installations);
-            Items = new List<Measurement>(data);
-            IsBusy = false;
-
             try
             {
-
-
-                /**
-                await helper.InsertAsync(data); 
+                MeasurementEntity me = _databaseHelper.Select();
                 if (me != null && DateTime.Now.Subtract(me.DateTime).TotalMinutes < 60)
                 {
-                    Items = new List<Measurement>(me.Measurement);
+                    List<Measurement> m = JsonConvert.DeserializeObject<List<Measurement>>(me.Measurement);
+                    Items = m;
                 }
                 else
                 {
-                    
-                    Items = new List<Measurement>(data);
+                    await FetchData();
                 }
-                **/
+                IsBusy = false;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error occured");
+                Debug.WriteLine($"Error occured {e.Message}");
+                throw e;
             }
+        }
+
+        private async Task FetchData()
+        {
+            Location location = await GetLocation();
+            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 2);
+            IEnumerable<Measurement> data = await GetMeasurementsForInstallations(installations);
+            List<Measurement> itemData = new List<Measurement>(data);
+            _databaseHelper.Truncate();
+            _databaseHelper.Insert(itemData);
+            Items = itemData;
+            return;
         }
 
         private void OnGoToDetails(Measurement item)
         {
             _navigation.PushAsync(new DetailsPage(item));
+        }
+
+        private void OnRefresh()
+        {
+            IsBusy = true;
+            OnRefreshAsync();
+            IsBusy = false;
+        }
+
+        private async Task OnRefreshAsync()
+        {
+            await FetchData();
         }
 
         private async Task<IEnumerable<Installation>> GetInstallations(Location location, double maxDistanceInKm = 3,

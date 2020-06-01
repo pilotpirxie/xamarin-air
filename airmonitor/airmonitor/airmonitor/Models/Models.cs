@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 using Xamarin.Essentials;
 
 namespace airmonitor.Models
@@ -51,7 +52,7 @@ namespace airmonitor.Models
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
-        public IEnumerable<Measurement> Measurement { get; set; }
+        public string Measurement { get; set; }
         public DateTime DateTime { get; set; }
     }
 
