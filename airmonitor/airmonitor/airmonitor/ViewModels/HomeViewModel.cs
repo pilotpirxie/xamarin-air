@@ -50,10 +50,35 @@ namespace airmonitor.ViewModels
             IsBusy = true;
             Console.Write("Starting...");
             Location location = await GetLocation();
-            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 3);
+            // DatabaseHelper helper = new DatabaseHelper();
+            // MeasurementEntity me = helper.Select();
+
+            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 2);
             IEnumerable<Measurement> data = await GetMeasurementsForInstallations(installations);
             Items = new List<Measurement>(data);
             IsBusy = false;
+
+            try
+            {
+
+
+                /**
+                await helper.InsertAsync(data); 
+                if (me != null && DateTime.Now.Subtract(me.DateTime).TotalMinutes < 60)
+                {
+                    Items = new List<Measurement>(me.Measurement);
+                }
+                else
+                {
+                    
+                    Items = new List<Measurement>(data);
+                }
+                **/
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error occured");
+            }
         }
 
         private void OnGoToDetails(Measurement item)
@@ -107,12 +132,10 @@ namespace airmonitor.ViewModels
 
             foreach (Installation installation in installations)
             {
-                string query = GetQuery(new Dictionary<string, object> {
-     {
-      "installationId",
-      installation.Id
-     }
-    });
+                string query = GetQuery(new Dictionary<string, object> {{
+                    "installationId", installation.Id
+                }});
+            
                 string url = GetAirlyApiUrl(App.AirlyApiMeasurementUrl, query);
 
                 Measurement response = await GetHttpResponseAsync<Measurement>(url);

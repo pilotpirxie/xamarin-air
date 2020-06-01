@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using SQLite;
 using Xamarin.Essentials;
 
 namespace airmonitor.Models
@@ -43,6 +45,14 @@ namespace airmonitor.Models
         public double Elevation { get; set; }
 
         [JsonProperty(PropertyName = "airly")] public bool IsAirlyInstallation { get; set; }
+    }
+
+    public class MeasurementEntity
+    {
+        [PrimaryKey, AutoIncrement, Column("_id")]
+        public int Id { get; set; }
+        public IEnumerable<Measurement> Measurement { get; set; }
+        public DateTime DateTime { get; set; }
     }
 
     public class Measurement
