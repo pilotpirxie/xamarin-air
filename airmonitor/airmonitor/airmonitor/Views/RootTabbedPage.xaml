@@ -10,6 +10,11 @@
             <views:HomePage/>
         </x:Arguments>
     </NavigationPage>
+    <NavigationPage Title="Mapa" NavigationPage.HasNavigationBar="False" IconImageSource="baseline_settings_black_24">
+        <x:Arguments>
+            <views:MapPage />
+        </x:Arguments>
+    </NavigationPage>
     <NavigationPage Title="Ustawienia" NavigationPage.HasNavigationBar="False" IconImageSource="baseline_settings_black_24">
         <x:Arguments>
             <views:SettingsPage />

@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="airmonitor.Views.SettingsPage">
+             x:Class="airmonitor.Views.SettingsPage"
+             Title="Ustawienia">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Style="{StaticResource SettingsStyle}">
             <Label Text="Xamarin AirMonitor"/>
             <Label Text="2020, v.1.0"/>
         </StackLayout>

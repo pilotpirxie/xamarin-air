@@ -104,4 +104,8 @@
         <Setter Property="HeightRequest" Value="48"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
+
+    <Style TargetType="ContentPage" x:Key="SettingsStyle">
+        <Setter Property="Padding" Value="10" />
+    </Style>
 </ResourceDictionary>
