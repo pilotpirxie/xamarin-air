@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 using Xamarin.Essentials;
+using Xamarin.Forms.Maps;
 
 namespace airmonitor.Models
 {
@@ -78,5 +79,12 @@ namespace airmonitor.Models
     {
         public string Name { get; set; }
         public double Value { get; set; }
+    }
+
+    public class MapLocation
+    {
+        public string Address { get; set; }
+        public string Description { get; set; }
+        public Position Position { get; set; }
     }
 }

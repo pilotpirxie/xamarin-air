@@ -10,7 +10,7 @@
             <views:HomePage/>
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Mapa" NavigationPage.HasNavigationBar="False" IconImageSource="baseline_settings_black_24">
+    <NavigationPage Title="Mapa" NavigationPage.HasNavigationBar="False" IconImageSource="pin">
         <x:Arguments>
             <views:MapPage />
         </x:Arguments>

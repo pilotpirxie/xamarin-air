@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Xamarin.Forms.Maps;
 
 namespace airmonitor.ViewModels
 {
@@ -22,11 +23,15 @@ namespace airmonitor.ViewModels
 
         private ICommand _goToDetailsCommand;
 
+        private ICommand _infoWindowClickedCommand;
+
         private ICommand _refreshListCommand;
 
         private bool _isBusy;
 
         private List<Measurement> _items;
+
+        private List<MapLocation> _locations;
 
         private readonly DatabaseHelper _databaseHelper;
 
@@ -38,6 +43,7 @@ namespace airmonitor.ViewModels
         }
 
         public ICommand GoToDetailsCommand => _goToDetailsCommand ?? (_goToDetailsCommand = new Command<Measurement>(OnGoToDetails));
+        public ICommand InfoWindowClickedCommand => _infoWindowClickedCommand ?? (_infoWindowClickedCommand = new Command<string>(OnInfoWindowClickedCommand));
         
         public ICommand RefreshList => _refreshListCommand ?? (_refreshListCommand = new Command(OnRefresh));
 
@@ -46,6 +52,12 @@ namespace airmonitor.ViewModels
         {
             get => _items;
             set => SetProperty(ref _items, value);
+        }
+        
+        public List<MapLocation> Locations
+        {
+            get => _locations;
+            set => SetProperty(ref _locations, value);
         }
 
         public bool IsBusy
@@ -62,13 +74,19 @@ namespace airmonitor.ViewModels
                 MeasurementEntity me = _databaseHelper.Select();
                 if (me != null && DateTime.Now.Subtract(me.DateTime).TotalMinutes < 60)
                 {
-                    List<Measurement> m = JsonConvert.DeserializeObject<List<Measurement>>(me.Measurement);
-                    Items = m;
+                    Items = JsonConvert.DeserializeObject<List<Measurement>>(me.Measurement);
                 }
                 else
                 {
-                    await FetchData();
+                    Items = await FetchData();
                 }
+
+                Locations = Items.Select(i => new MapLocation { 
+                    Address = i.Installation.Address.Description, 
+                    Description = "CAQI: " + i.CurrentDisplayValue, 
+                    Position = new Position(i.Installation.Location.Latitude, i.Installation.Location.Longitude) 
+                }).ToList();
+                
                 IsBusy = false;
             }
             catch (Exception e)
@@ -78,20 +96,26 @@ namespace airmonitor.ViewModels
             }
         }
 
-        private async Task FetchData()
+        private async Task<List<Measurement>> FetchData()
         {
             Location location = await GetLocation();
-            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 2);
+            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 5);
             IEnumerable<Measurement> data = await GetMeasurementsForInstallations(installations);
             List<Measurement> itemData = new List<Measurement>(data);
             _databaseHelper.Truncate();
             _databaseHelper.Insert(itemData);
-            Items = itemData;
-            return;
+            return itemData;
         }
 
         private void OnGoToDetails(Measurement item)
         {
+            _navigation.PushAsync(new DetailsPage(item));
+        }
+        
+        private void OnInfoWindowClickedCommand(string address)
+        {
+            Measurement item = Items.First<Measurement>(i => i.Installation.Address.Description.Equals(address));
+
             _navigation.PushAsync(new DetailsPage(item));
         }
 
@@ -107,7 +131,7 @@ namespace airmonitor.ViewModels
             await FetchData();
         }
 
-        private async Task<IEnumerable<Installation>> GetInstallations(Location location, double maxDistanceInKm = 3,
+        private async Task<IEnumerable<Installation>> GetInstallations(Location location, double maxDistanceInKm = 5,
          int maxResults = -1)
         {
             if (location == null)

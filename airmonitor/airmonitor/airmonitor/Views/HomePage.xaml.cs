@@ -8,14 +8,14 @@ namespace airmonitor.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
+        private HomeViewModel ViewModel => BindingContext as HomeViewModel;
+
         public HomePage()
         {
             InitializeComponent();
 
             BindingContext = new HomeViewModel(Navigation);
         }
-
-        private HomeViewModel ViewModel => BindingContext as HomeViewModel;
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {

@@ -11890,10 +11890,13 @@ namespace airmonitor.Droid
 			public const int notify_panel_notification_icon_bg = 2131165520;
 			
 			// aapt resource value: 0x7F070151
-			public const int tooltip_frame_dark = 2131165521;
+			public const int pin = 2131165521;
 			
 			// aapt resource value: 0x7F070152
-			public const int tooltip_frame_light = 2131165522;
+			public const int tooltip_frame_dark = 2131165522;
+			
+			// aapt resource value: 0x7F070153
+			public const int tooltip_frame_light = 2131165523;
 			
 			static Drawable()
 			{

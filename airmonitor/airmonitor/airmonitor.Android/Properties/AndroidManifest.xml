@@ -10,5 +10,6 @@
 	<uses-permission android:name="android.permission.INTERNET" />
 	<application android:label="airmonitor.Android">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="KEY HERE"/>
+		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 	</application>
 </manifest>

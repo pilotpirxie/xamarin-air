@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reflection;
+using airmonitor.Models;
 using airmonitor.Views;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
@@ -29,11 +30,25 @@ namespace airmonitor
         public static string AirlyApiMeasurementUrl { get; private set; }
         public static string AirlyApiInstallationUrl { get; private set; }
 
+        private DatabaseHelper _databaseHelper;
+
         private void InitializeApp()
         {
             LoadConfig();
 
+            _databaseHelper = new DatabaseHelper();
+
             MainPage = new RootTabbedPage();
+        }
+
+        private void OnSleep()
+        {
+            _databaseHelper.Dispose();
+        }
+
+        private void OnResume()
+        {
+            _databaseHelper.Connect();
         }
 
         private static void LoadConfig()
