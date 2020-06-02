@@ -12,20 +12,18 @@ using airmonitor.Views;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Xamarin.Forms.Maps;
 
 namespace airmonitor.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
+        private readonly DatabaseHelper _databaseHelper;
         private readonly INavigation _navigation;
 
         private ICommand _goToDetailsCommand;
 
         private ICommand _infoWindowClickedCommand;
-
-        private ICommand _refreshListCommand;
 
         private bool _isBusy;
 
@@ -33,7 +31,7 @@ namespace airmonitor.ViewModels
 
         private List<MapLocation> _locations;
 
-        private readonly DatabaseHelper _databaseHelper;
+        private ICommand _refreshListCommand;
 
         public HomeViewModel(INavigation navigation)
         {
@@ -42,9 +40,13 @@ namespace airmonitor.ViewModels
             Initialize();
         }
 
-        public ICommand GoToDetailsCommand => _goToDetailsCommand ?? (_goToDetailsCommand = new Command<Measurement>(OnGoToDetails));
-        public ICommand InfoWindowClickedCommand => _infoWindowClickedCommand ?? (_infoWindowClickedCommand = new Command<string>(OnInfoWindowClickedCommand));
-        
+        public ICommand GoToDetailsCommand =>
+            _goToDetailsCommand ?? (_goToDetailsCommand = new Command<Measurement>(OnGoToDetails));
+
+        public ICommand InfoWindowClickedCommand => _infoWindowClickedCommand ??
+                                                    (_infoWindowClickedCommand =
+                                                        new Command<string>(OnInfoWindowClickedCommand));
+
         public ICommand RefreshList => _refreshListCommand ?? (_refreshListCommand = new Command(OnRefresh));
 
 
@@ -53,7 +55,7 @@ namespace airmonitor.ViewModels
             get => _items;
             set => SetProperty(ref _items, value);
         }
-        
+
         public List<MapLocation> Locations
         {
             get => _locations;
@@ -71,22 +73,19 @@ namespace airmonitor.ViewModels
             IsBusy = true;
             try
             {
-                MeasurementEntity me = _databaseHelper.Select();
+                var me = _databaseHelper.Select();
                 if (me != null && DateTime.Now.Subtract(me.DateTime).TotalMinutes < 60)
-                {
                     Items = JsonConvert.DeserializeObject<List<Measurement>>(me.Measurement);
-                }
                 else
-                {
                     Items = await FetchData();
-                }
 
-                Locations = Items.Select(i => new MapLocation { 
-                    Address = i.Installation.Address.Description, 
-                    Description = "CAQI: " + i.CurrentDisplayValue, 
-                    Position = new Position(i.Installation.Location.Latitude, i.Installation.Location.Longitude) 
+                Locations = Items.Select(i => new MapLocation
+                {
+                    Address = i.Installation.Address.Description,
+                    Description = "CAQI: " + i.CurrentDisplayValue,
+                    Position = new Position(i.Installation.Location.Latitude, i.Installation.Location.Longitude)
                 }).ToList();
-                
+
                 IsBusy = false;
             }
             catch (Exception e)
@@ -98,10 +97,10 @@ namespace airmonitor.ViewModels
 
         private async Task<List<Measurement>> FetchData()
         {
-            Location location = await GetLocation();
-            IEnumerable<Installation> installations = await GetInstallations(location, maxResults: 5);
-            IEnumerable<Measurement> data = await GetMeasurementsForInstallations(installations);
-            List<Measurement> itemData = new List<Measurement>(data);
+            var location = await GetLocation();
+            var installations = await GetInstallations(location, maxResults: 5);
+            var data = await GetMeasurementsForInstallations(installations);
+            var itemData = new List<Measurement>(data);
             _databaseHelper.Truncate();
             _databaseHelper.Insert(itemData);
             return itemData;
@@ -111,10 +110,10 @@ namespace airmonitor.ViewModels
         {
             _navigation.PushAsync(new DetailsPage(item));
         }
-        
+
         private void OnInfoWindowClickedCommand(string address)
         {
-            Measurement item = Items.First<Measurement>(i => i.Installation.Address.Description.Equals(address));
+            var item = Items.First(i => i.Installation.Address.Description.Equals(address));
 
             _navigation.PushAsync(new DetailsPage(item));
         }
@@ -132,7 +131,7 @@ namespace airmonitor.ViewModels
         }
 
         private async Task<IEnumerable<Installation>> GetInstallations(Location location, double maxDistanceInKm = 5,
-         int maxResults = -1)
+            int maxResults = -1)
         {
             if (location == null)
             {
@@ -140,7 +139,8 @@ namespace airmonitor.ViewModels
                 return null;
             }
 
-            string query = GetQuery(new Dictionary<string, object> {
+            var query = GetQuery(new Dictionary<string, object>
+            {
                 {
                     "lat",
                     location.Latitude
@@ -158,14 +158,14 @@ namespace airmonitor.ViewModels
                     maxResults
                 }
             });
-            string url = GetAirlyApiUrl(App.AirlyApiInstallationUrl, query);
+            var url = GetAirlyApiUrl(App.AirlyApiInstallationUrl, query);
 
-            IEnumerable<Installation> response = await GetHttpResponseAsync<IEnumerable<Installation>>(url);
+            var response = await GetHttpResponseAsync<IEnumerable<Installation>>(url);
             return response;
         }
 
         private async Task<IEnumerable<Measurement>> GetMeasurementsForInstallations(
-         IEnumerable<Installation> installations)
+            IEnumerable<Installation> installations)
         {
             if (installations == null)
             {
@@ -173,22 +173,26 @@ namespace airmonitor.ViewModels
                 return null;
             }
 
-            List<Measurement> measurements = new List<Measurement>();
+            var measurements = new List<Measurement>();
 
-            foreach (Installation installation in installations)
+            foreach (var installation in installations)
             {
-                string query = GetQuery(new Dictionary<string, object> {{
-                    "installationId", installation.Id
-                }});
-            
-                string url = GetAirlyApiUrl(App.AirlyApiMeasurementUrl, query);
+                var query = GetQuery(new Dictionary<string, object>
+                {
+                    {
+                        "installationId", installation.Id
+                    }
+                });
 
-                Measurement response = await GetHttpResponseAsync<Measurement>(url);
+                var url = GetAirlyApiUrl(App.AirlyApiMeasurementUrl, query);
+
+                var response = await GetHttpResponseAsync<Measurement>(url);
 
                 if (response != null)
                 {
                     response.Installation = installation;
-                    response.CurrentDisplayValue = (int)Math.Round(response.Current?.Indexes?.FirstOrDefault()?.Value ?? 0);
+                    response.CurrentDisplayValue =
+                        (int) Math.Round(response.Current?.Indexes?.FirstOrDefault()?.Value ?? 0);
                     measurements.Add(response);
                 }
             }
@@ -198,42 +202,33 @@ namespace airmonitor.ViewModels
 
         private static string GetQuery(IDictionary<string, object> args)
         {
-            if (args == null)
-            {
-                return null;
-            }
+            if (args == null) return null;
 
-            System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            var query = HttpUtility.ParseQueryString(string.Empty);
 
             foreach (var arg in args)
-            {
                 if (arg.Value is double number)
-                {
                     query[arg.Key] = number.ToString(CultureInfo.InvariantCulture);
-                }
                 else
-                {
                     query[arg.Key] = arg.Value?.ToString();
-                }
-            }
 
             return query.ToString();
         }
 
         private static string GetAirlyApiUrl(string path, string query)
         {
-            UriBuilder builder = new UriBuilder(App.AirlyApiUrl);
+            var builder = new UriBuilder(App.AirlyApiUrl);
             builder.Port = -1;
             builder.Path += path;
             builder.Query = query;
-            string url = builder.ToString();
+            var url = builder.ToString();
 
             return url;
         }
 
         private static HttpClient GetHttpClient()
         {
-            HttpClient client = new HttpClient
+            var client = new HttpClient
             {
                 BaseAddress = new Uri(App.AirlyApiUrl)
             };
@@ -249,26 +244,27 @@ namespace airmonitor.ViewModels
         {
             try
             {
-                HttpClient client = GetHttpClient();
-                HttpResponseMessage response = await client.GetAsync(url);
+                var client = GetHttpClient();
+                var response = await client.GetAsync(url);
 
                 if (response.Headers.TryGetValues("X-RateLimit-Limit-day", out
-                  var dayLimit) &&
-                 response.Headers.TryGetValues("X-RateLimit-Remaining-day", out
-                  var dayLimitRemaining))
-                    Debug.WriteLine($"Day limit: {dayLimit?.FirstOrDefault()}, remaining: {dayLimitRemaining?.FirstOrDefault()}");
+                        var dayLimit) &&
+                    response.Headers.TryGetValues("X-RateLimit-Remaining-day", out
+                        var dayLimitRemaining))
+                    Debug.WriteLine(
+                        $"Day limit: {dayLimit?.FirstOrDefault()}, remaining: {dayLimitRemaining?.FirstOrDefault()}");
 
-                switch ((int)response.StatusCode)
+                switch ((int) response.StatusCode)
                 {
                     case 200:
-                        string content = await response.Content.ReadAsStringAsync();
-                        T result = JsonConvert.DeserializeObject<T>(content);
+                        var content = await response.Content.ReadAsStringAsync();
+                        var result = JsonConvert.DeserializeObject<T>(content);
                         return result;
                     case 429:
                         Debug.WriteLine("Too many requests");
                         break;
                     default:
-                        string errorContent = await response.Content.ReadAsStringAsync();
+                        var errorContent = await response.Content.ReadAsStringAsync();
                         Debug.WriteLine($"Response error: {errorContent}");
                         return default;
                 }
@@ -285,7 +281,7 @@ namespace airmonitor.ViewModels
         {
             try
             {
-                Location location = await Geolocation.GetLastKnownLocationAsync();
+                var location = await Geolocation.GetLastKnownLocationAsync();
 
                 if (location == null)
                 {
@@ -294,9 +290,7 @@ namespace airmonitor.ViewModels
                 }
 
                 if (location != null)
-                {
                     Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
-                }
 
                 return location;
             }

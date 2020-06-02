@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using SQLite;
-using SQLiteNetExtensions.Attributes;
 using Xamarin.Essentials;
 using Xamarin.Forms.Maps;
 
@@ -51,8 +49,11 @@ namespace airmonitor.Models
 
     public class MeasurementEntity
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
+        [PrimaryKey]
+        [AutoIncrement]
+        [Column("_id")]
         public int Id { get; set; }
+
         public string Measurement { get; set; }
         public DateTime DateTime { get; set; }
     }

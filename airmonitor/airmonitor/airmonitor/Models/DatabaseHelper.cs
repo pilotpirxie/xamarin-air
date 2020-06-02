@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using SQLite;
 
@@ -10,11 +8,20 @@ namespace airmonitor.Models
 {
     public class DatabaseHelper : IDisposable
     {
-        private static SQLiteConnection _connection = null;
+        private static SQLiteConnection _connection;
 
-        public DatabaseHelper() 
+        public DatabaseHelper()
         {
             Connect();
+        }
+
+        public void Dispose()
+        {
+            if (_connection != null)
+            {
+                _connection.Dispose();
+                _connection = null;
+            }
         }
 
         public void Connect()
@@ -28,37 +35,28 @@ namespace airmonitor.Models
 
         public void Insert(List<Measurement> data)
         {
-            if (data == null)
-            {
-                return;
-            }
+            if (data == null) return;
 
-            if (_connection == null)
-            {
-                throw new Exception("Connection closed");
-            }
+            if (_connection == null) throw new Exception("Connection closed");
 
-            MeasurementEntity me = new MeasurementEntity();
+            var me = new MeasurementEntity();
             me.Measurement = JsonConvert.SerializeObject(data);
             me.DateTime = DateTime.Now;
 
             _connection.Insert(me);
-            
         }
 
         public MeasurementEntity Select()
         {
             if (_connection != null)
             {
-                TableQuery<MeasurementEntity> query = _connection.Table<MeasurementEntity>();
-                List<MeasurementEntity> entities = query.ToList();
-                MeasurementEntity me = entities.Count() > 0 ? entities.LastOrDefault() : null;
+                var query = _connection.Table<MeasurementEntity>();
+                var entities = query.ToList();
+                var me = entities.Count() > 0 ? entities.LastOrDefault() : null;
                 return me;
             }
-            else
-            {
-                throw new Exception("Connection closed");
-            }
+
+            throw new Exception("Connection closed");
         }
 
         public void Truncate()
@@ -73,15 +71,6 @@ namespace airmonitor.Models
         public void Disconnect()
         {
             Dispose();
-        }
-
-        public void Dispose()
-        {
-            if (_connection != null)
-            {
-                _connection.Dispose();
-                _connection = null;
-            }
         }
     }
 }

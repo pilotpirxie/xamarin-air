@@ -13,7 +13,7 @@ namespace airmonitor.Views
         {
             InitializeComponent();
 
-            DetailsViewModel viewModel = BindingContext as DetailsViewModel;
+            var viewModel = BindingContext as DetailsViewModel;
             viewModel.Item = item;
         }
 

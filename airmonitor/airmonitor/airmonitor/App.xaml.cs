@@ -15,9 +15,10 @@ namespace airmonitor
     {
         public static string DatabasePath;
 
+        private DatabaseHelper _databaseHelper;
+
         public App(string databasePath)
         {
-
             DatabasePath = databasePath;
 
             InitializeComponent();
@@ -29,8 +30,6 @@ namespace airmonitor
         public static string AirlyApiUrl { get; private set; }
         public static string AirlyApiMeasurementUrl { get; private set; }
         public static string AirlyApiInstallationUrl { get; private set; }
-
-        private DatabaseHelper _databaseHelper;
 
         private void InitializeApp()
         {
