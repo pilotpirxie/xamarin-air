@@ -6,9 +6,11 @@
  * Clone repository
  * Install Xamarin
  * Install Android SDK 28
+ * Set Airly and Google Maps API keys
  * Build and run with AVD
  * In AVD allow for required permission 
  
+ ### Screenshots
 ![s1](https://i.imgur.com/BZDBvdR.png)
 
 ![s2](https://i.imgur.com/Rv3m8nQ.png)
